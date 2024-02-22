@@ -59,6 +59,19 @@ app.delete('/api/articles/:id', (req, res) => {
     }
   });
 });
+app.put('/api/articles/:id', (req, res) => {
+  const articleId = req.params.id;
+  const { title, description } = req.body;
+  const sql = 'UPDATE articles SET title =?, description =? WHERE id =?';
+  connection.query(sql, [title, description, articleId], (err, result) => {
+    if (err) {
+      console.error('Error updating article:', err);
+      res.status(500).send('Error updating article');
+    } else {
+      res.status(200).send('Article updated successfully');
+    }
+  });
+});
 
 // Start the server
 app.listen(port, () => {
